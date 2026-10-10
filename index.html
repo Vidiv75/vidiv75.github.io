@@ -28,7 +28,7 @@
   }
   nav {
     position: fixed; top: 0; left: 0; right: 0;
-    padding: 18px 20px;
+    padding: 14px 12px;
     display: flex; justify-content: space-between; align-items: center;
     backdrop-filter: blur(12px);
     background: rgba(10, 10, 20, 0.7);
@@ -36,14 +36,14 @@
     z-index: 100;
   }
   .logo {
-    font-weight: 700; font-size: 18px; letter-spacing: 3px;
+    font-weight: 700; font-size: 14px; letter-spacing: 2px;
     background: linear-gradient(90deg, var(--accent), var(--accent2));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   }
-  nav ul { display: flex; gap: 16px; list-style: none; flex-wrap: wrap; }
+  nav ul { display: flex; gap: 10px; list-style: none; }
   nav a {
     color: var(--muted); text-decoration: none;
-    font-size: 11px; letter-spacing: 1px; transition: color .2s;
+    font-size: 10px; letter-spacing: 0.5px; transition: color .2s;
   }
   nav a:hover { color: var(--accent); }
   .hero {
@@ -184,38 +184,25 @@
     letter-spacing: 4px; margin-bottom: 14px;
   }
   .weather-main {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
+    display: flex; align-items: center;
+    justify-content: center; gap: 20px; flex-wrap: wrap;
   }
   .weather-icon { font-size: 64px; line-height: 1; }
   .weather-temp {
     font-size: 48px; font-weight: 200;
-    color: var(--accent);
-    letter-spacing: 2px;
+    color: var(--accent); letter-spacing: 2px;
     font-variant-numeric: tabular-nums;
   }
   .weather-desc {
-    font-size: 15px;
-    color: var(--accent2);
-    margin-top: 10px;
-    letter-spacing: 1px;
+    font-size: 15px; color: var(--accent2);
+    margin-top: 10px; letter-spacing: 1px;
   }
   .weather-details {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    margin-top: 18px;
-    flex-wrap: wrap;
-    font-size: 13px;
-    color: var(--muted);
+    display: flex; justify-content: center;
+    gap: 24px; margin-top: 18px;
+    flex-wrap: wrap; font-size: 13px; color: var(--muted);
   }
-  .weather-details span b {
-    color: var(--text);
-    font-weight: 500;
-  }
+  .weather-details span b { color: var(--text); font-weight: 500; }
   .weather-footer {
     text-align: center; margin-top: 16px;
     font-size: 12px; color: var(--muted);
@@ -229,6 +216,90 @@
     cursor: pointer; transition: all .2s;
   }
   .weather-footer button:hover { background: var(--accent); color: var(--bg); }
+
+  /* КАЛЬКУЛЯТОР */
+  .calc-wrap {
+    max-width: 340px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgba(20, 20, 40, 0.65);
+    border: 1px solid rgba(120, 120, 200, 0.15);
+    border-radius: 22px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  }
+  .calc-display {
+    background: rgba(10, 10, 20, 0.6);
+    border: 1px solid rgba(120, 120, 200, 0.2);
+    border-radius: 14px;
+    padding: 20px 16px;
+    margin-bottom: 16px;
+    text-align: right;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+  }
+  .calc-history {
+    font-size: 14px;
+    color: var(--muted);
+    min-height: 18px;
+    letter-spacing: 1px;
+    word-break: break-all;
+  }
+  .calc-result {
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--accent);
+    letter-spacing: 2px;
+    word-break: break-all;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 20px rgba(100, 200, 255, 0.3);
+  }
+  .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .calc-btn {
+    padding: 18px 0;
+    background: rgba(100, 200, 255, 0.06);
+    border: 1px solid rgba(100, 200, 255, 0.15);
+    color: var(--text);
+    border-radius: 14px;
+    font-size: 20px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: all .15s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    font-family: inherit;
+  }
+  .calc-btn:hover { background: rgba(100, 200, 255, 0.15); }
+  .calc-btn:active {
+    background: rgba(100, 200, 255, 0.3);
+    transform: scale(0.96);
+  }
+  .calc-btn.op {
+    color: var(--accent);
+    border-color: rgba(100, 200, 255, 0.35);
+    font-size: 22px;
+  }
+  .calc-btn.clear {
+    color: #ff7a9c;
+    border-color: rgba(255, 122, 156, 0.3);
+  }
+  .calc-btn.equals {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #0a0a14;
+    border: none;
+    font-weight: 600;
+    grid-column: span 2;
+  }
+  .calc-btn.equals:hover { filter: brightness(1.15); }
+
   .game-block {
     display: flex; flex-direction: column; align-items: center;
     gap: 12px; margin-bottom: 70px;
@@ -310,8 +381,8 @@
     <li><a href="#time">ВРЕМЯ</a></li>
     <li><a href="#rates">КУРС</a></li>
     <li><a href="#weather">ПОГОДА</a></li>
+    <li><a href="#calc">КАЛЬК</a></li>
     <li><a href="#games">ИГРЫ</a></li>
-    <li><a href="#contact">СВЯЗЬ</a></li>
   </ul>
 </nav>
 
@@ -385,6 +456,42 @@
   </div>
 </section>
 
+<section id="calc">
+  <div class="section-title">Инструмент</div>
+  <h2>Калькулятор</h2>
+  <div class="calc-wrap">
+    <div class="calc-display">
+      <div class="calc-history" id="calc-history"></div>
+      <div class="calc-result" id="calc-result">0</div>
+    </div>
+    <div class="calc-grid">
+      <button class="calc-btn clear" data-action="clear">C</button>
+      <button class="calc-btn clear" data-action="back">⌫</button>
+      <button class="calc-btn op" data-action="percent">%</button>
+      <button class="calc-btn op" data-op="/">÷</button>
+
+      <button class="calc-btn" data-num="7">7</button>
+      <button class="calc-btn" data-num="8">8</button>
+      <button class="calc-btn" data-num="9">9</button>
+      <button class="calc-btn op" data-op="*">×</button>
+
+      <button class="calc-btn" data-num="4">4</button>
+      <button class="calc-btn" data-num="5">5</button>
+      <button class="calc-btn" data-num="6">6</button>
+      <button class="calc-btn op" data-op="-">−</button>
+
+      <button class="calc-btn" data-num="1">1</button>
+      <button class="calc-btn" data-num="2">2</button>
+      <button class="calc-btn" data-num="3">3</button>
+      <button class="calc-btn op" data-op="+">+</button>
+
+      <button class="calc-btn" data-num="0">0</button>
+      <button class="calc-btn" data-action="dot">,</button>
+      <button class="calc-btn equals" data-action="equals">=</button>
+    </div>
+  </div>
+</section>
+
 <section id="games">
   <div class="section-title">Играть</div>
   <h2>Три игры прямо на сайте</h2>
@@ -423,16 +530,6 @@
     <canvas id="shield-canvas" width="340" height="340"></canvas>
     <div class="game-hint">👉 Води пальцем по полю</div>
     <button class="reset-btn" id="shield-reset">ЗАНОВО</button>
-  </div>
-</section>
-
-<section id="contact" class="contacts">
-  <div class="section-title">Связь</div>
-  <h2>Дай знать, что думаешь</h2>
-  <div class="links">
-    <a href="#">EMAIL</a>
-    <a href="#">TELEGRAM</a>
-    <a href="#">GITHUB</a>
   </div>
 </section>
 
@@ -550,7 +647,7 @@ function renderCalendar() {
 }
 renderCalendar();
 
-/* ===== КУРС ВАЛЮТ К ГРИВНЕ ===== */
+/* ===== КУРС ВАЛЮТ ===== */
 function formatRate(value) {
   return value.toFixed(2).replace('.', ',');
 }
@@ -561,28 +658,21 @@ async function loadRates() {
   const usdEl = document.getElementById('usd-rate');
   const eurEl = document.getElementById('eur-rate');
   const updEl = document.getElementById('rates-updated');
-
   usdEl.innerHTML = '...<span class="ruble">₴</span>';
   eurEl.innerHTML = '...<span class="ruble">₴</span>';
   updEl.textContent = 'загрузка...';
-
   try {
     const res = await fetch('https://open.er-api.com/v6/latest/USD');
     const data = await res.json();
-
     if (data && data.rates && data.rates.UAH) {
       const usdToUah = data.rates.UAH;
       const eurToUsd = data.rates.EUR || 1;
       const eurToUah = usdToUah / eurToUsd;
-
       usdEl.innerHTML = formatRate(usdToUah) + '<span class="ruble">₴</span>';
       eurEl.innerHTML = formatRate(eurToUah) + '<span class="ruble">₴</span>';
-
       const d = new Date(data.time_last_update_unix * 1000);
       updEl.textContent = formatTime(d);
-    } else {
-      throw new Error('Нет данных');
-    }
+    } else { throw new Error('Нет данных'); }
   } catch (e) {
     usdEl.innerHTML = '—<span class="ruble">₴</span>';
     eurEl.innerHTML = '—<span class="ruble">₴</span>';
@@ -592,32 +682,27 @@ async function loadRates() {
 document.getElementById('rates-refresh').addEventListener('click', loadRates);
 loadRates();
 
-/* ===== ПОГОДА ВАРШАВА ===== */
+/* ===== ПОГОДА ===== */
 const WMO_ICONS = {
-  0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
-  45: '🌫️', 48: '🌫️',
-  51: '🌦️', 53: '🌦️', 55: '🌧️',
-  56: '🌧️', 57: '🌧️',
-  61: '🌧️', 63: '🌧️', 65: '🌧️',
-  66: '🌧️', 67: '🌧️',
-  71: '🌨️', 73: '🌨️', 75: '❄️', 77: '🌨️',
-  80: '🌦️', 81: '🌧️', 82: '🌧️',
-  85: '🌨️', 86: '❄️',
-  95: '⛈️', 96: '⛈️', 99: '⛈️'
+  0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',
+  51:'🌦️',53:'🌦️',55:'🌧️',56:'🌧️',57:'🌧️',
+  61:'🌧️',63:'🌧️',65:'🌧️',66:'🌧️',67:'🌧️',
+  71:'🌨️',73:'🌨️',75:'❄️',77:'🌨️',
+  80:'🌦️',81:'🌧️',82:'🌧️',85:'🌨️',86:'❄️',
+  95:'⛈️',96:'⛈️',99:'⛈️'
 };
 const WMO_DESC = {
-  0: 'Ясно', 1: 'Преимущественно ясно', 2: 'Переменная облачность', 3: 'Пасмурно',
-  45: 'Туман', 48: 'Туман с изморозью',
-  51: 'Слабая морось', 53: 'Умеренная морось', 55: 'Сильная морось',
-  56: 'Слабая ледяная морось', 57: 'Сильная ледяная морось',
-  61: 'Слабый дождь', 63: 'Умеренный дождь', 65: 'Сильный дождь',
-  66: 'Слабый ледяной дождь', 67: 'Сильный ледяной дождь',
-  71: 'Слабый снег', 73: 'Умеренный снег', 75: 'Сильный снег', 77: 'Снежная крупа',
-  80: 'Слабые ливни', 81: 'Умеренные ливни', 82: 'Сильные ливни',
-  85: 'Слабый снегопад', 86: 'Сильный снегопад',
-  95: 'Гроза', 96: 'Гроза с градом', 99: 'Сильная гроза с градом'
+  0:'Ясно',1:'Преимущественно ясно',2:'Переменная облачность',3:'Пасмурно',
+  45:'Туман',48:'Туман с изморозью',
+  51:'Слабая морось',53:'Умеренная морось',55:'Сильная морось',
+  56:'Слабая ледяная морось',57:'Сильная ледяная морось',
+  61:'Слабый дождь',63:'Умеренный дождь',65:'Сильный дождь',
+  66:'Слабый ледяной дождь',67:'Сильный ледяной дождь',
+  71:'Слабый снег',73:'Умеренный снег',75:'Сильный снег',77:'Снежная крупа',
+  80:'Слабые ливни',81:'Умеренные ливни',82:'Сильные ливни',
+  85:'Слабый снегопад',86:'Сильный снегопад',
+  95:'Гроза',96:'Гроза с градом',99:'Сильная гроза с градом'
 };
-
 async function loadWeather() {
   const iconEl = document.getElementById('weather-icon');
   const tempEl = document.getElementById('weather-temp');
@@ -625,40 +710,24 @@ async function loadWeather() {
   const windEl = document.getElementById('weather-wind');
   const humEl = document.getElementById('weather-hum');
   const updEl = document.getElementById('weather-updated');
-
-  iconEl.textContent = '⏳';
-  tempEl.textContent = '—°';
+  iconEl.textContent = '⏳'; tempEl.textContent = '—°';
   descEl.textContent = 'загрузка...';
-  windEl.textContent = '—';
-  humEl.textContent = '—';
+  windEl.textContent = '—'; humEl.textContent = '—';
   updEl.textContent = 'загрузка...';
-
   try {
-    const url = 'https://api.open-meteo.com/v1/forecast'
-      + '?latitude=52.2297&longitude=21.0122'
-      + '&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m'
-      + '&timezone=Europe/Warsaw';
+    const url = 'https://api.open-meteo.com/v1/forecast?latitude=52.2297&longitude=21.0122&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&timezone=Europe/Warsaw';
     const res = await fetch(url);
     const data = await res.json();
-
     if (data && data.current) {
       const cur = data.current;
       const code = cur.weather_code;
-      const temp = Math.round(cur.temperature_2m);
-      const wind = Math.round(cur.wind_speed_10m);
-      const hum = cur.relative_humidity_2m;
-
       iconEl.textContent = WMO_ICONS[code] || '🌡️';
-      tempEl.textContent = temp + '°';
+      tempEl.textContent = Math.round(cur.temperature_2m) + '°';
       descEl.textContent = WMO_DESC[code] || 'Погода';
-      windEl.textContent = wind;
-      humEl.textContent = hum;
-
-      const now = new Date();
-      updEl.textContent = formatTime(now);
-    } else {
-      throw new Error('Нет данных');
-    }
+      windEl.textContent = Math.round(cur.wind_speed_10m);
+      humEl.textContent = cur.relative_humidity_2m;
+      updEl.textContent = formatTime(new Date());
+    } else { throw new Error('Нет данных'); }
   } catch (e) {
     iconEl.textContent = '⚠️';
     tempEl.textContent = '—°';
@@ -668,6 +737,140 @@ async function loadWeather() {
 }
 document.getElementById('weather-refresh').addEventListener('click', loadWeather);
 loadWeather();
+
+/* ===== КАЛЬКУЛЯТОР ===== */
+(function () {
+  const historyEl = document.getElementById('calc-history');
+  const resultEl = document.getElementById('calc-result');
+  let current = '0';
+  let previous = null;
+  let operator = null;
+  let waitingForOperand = false;
+
+  function updateDisplay() {
+    resultEl.textContent = current.replace('.', ',');
+    if (operator && previous !== null) {
+      const opSym = { '+':'+', '-':'−', '*':'×', '/':'÷' }[operator];
+      historyEl.textContent = previous.toString().replace('.', ',') + ' ' + opSym;
+    } else {
+      historyEl.textContent = '';
+    }
+  }
+
+  function inputDigit(d) {
+    if (waitingForOperand) {
+      current = d;
+      waitingForOperand = false;
+    } else {
+      current = current === '0' ? d : current + d;
+    }
+    updateDisplay();
+  }
+
+  function inputDot() {
+    if (waitingForOperand) {
+      current = '0.';
+      waitingForOperand = false;
+    } else if (!current.includes('.')) {
+      current += '.';
+    }
+    updateDisplay();
+  }
+
+  function calc(a, op, b) {
+    const x = parseFloat(a);
+    const y = parseFloat(b);
+    switch (op) {
+      case '+': return x + y;
+      case '-': return x - y;
+      case '*': return x * y;
+      case '/': return y === 0 ? 0 : x / y;
+      default: return y;
+    }
+  }
+
+  function formatResult(n) {
+    if (!isFinite(n)) return 'Ошибка';
+    let s = Math.round(n * 1e10) / 1e10;
+    if (Math.abs(s) > 1e15) return s.toExponential(6);
+    return s.toString();
+  }
+
+  document.querySelectorAll('.calc-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const num = btn.dataset.num;
+      const op = btn.dataset.op;
+      const action = btn.dataset.action;
+
+      if (num !== undefined) {
+        if (current === 'Ошибка') { current = '0'; }
+        inputDigit(num);
+      } else if (op !== undefined) {
+        if (current === 'Ошибка') return;
+        const inputValue = parseFloat(current);
+        if (previous === null) {
+          previous = inputValue;
+        } else if (operator) {
+          const result = calc(previous, operator, inputValue);
+          previous = result;
+          current = formatResult(result);
+        }
+        operator = op;
+        waitingForOperand = true;
+        updateDisplay();
+      } else if (action === 'equals') {
+        if (operator && previous !== null) {
+          const result = calc(previous, operator, parseFloat(current));
+          current = formatResult(result);
+          previous = null;
+          operator = null;
+          waitingForOperand = true;
+          resultEl.textContent = current.replace('.', ',');
+          historyEl.textContent = '';
+        }
+      } else if (action === 'clear') {
+        current = '0'; previous = null; operator = null;
+        waitingForOperand = false;
+        updateDisplay();
+      } else if (action === 'back') {
+        if (waitingForOperand) return;
+        if (current.length > 1) current = current.slice(0, -1);
+        else current = '0';
+        updateDisplay();
+      } else if (action === 'percent') {
+        if (current === 'Ошибка') return;
+        current = formatResult(parseFloat(current) / 100);
+        updateDisplay();
+      } else if (action === 'dot') {
+        if (current === 'Ошибка') { current = '0'; }
+        inputDot();
+      }
+    });
+  });
+
+  // Поддержка клавиатуры
+  document.addEventListener('keydown', e => {
+    const k = e.key;
+    if (/^[0-9]$/.test(k)) {
+      const btn = document.querySelector('.calc-btn[data-num="'+k+'"]');
+      if (btn) btn.click();
+    } else if (k === '+' || k === '-' || k === '*' || k === '/') {
+      const btn = document.querySelector('.calc-btn[data-op="'+k+'"]');
+      if (btn) btn.click();
+    } else if (k === '=' || k === 'Enter') {
+      document.querySelector('.calc-btn[data-action="equals"]')?.click();
+    } else if (k === 'Escape') {
+      document.querySelector('.calc-btn[data-action="clear"]')?.click();
+    } else if (k === 'Backspace') {
+      document.querySelector('.calc-btn[data-action="back"]')?.click();
+    } else if (k === '.' || k === ',') {
+      document.querySelector('.calc-btn[data-action="dot"]')?.click();
+    }
+  });
+
+  updateDisplay();
+})();
 
 /* ===== ЗМЕЙКА ===== */
 (function () {
