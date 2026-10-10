@@ -46,11 +46,13 @@
     font-size: 12px; letter-spacing: 1px; transition: color .2s;
   }
   nav a:hover { color: var(--accent); }
+
+  /* HERO */
   .hero {
-    min-height: 100vh;
+    min-height: 60vh;
     display: flex; flex-direction: column;
     justify-content: center; align-items: center;
-    text-align: center; padding: 0 20px;
+    text-align: center; padding: 100px 20px 40px;
   }
   .hero h1 {
     font-size: clamp(32px, 7vw, 72px); font-weight: 300;
@@ -60,16 +62,10 @@
   }
   .hero p {
     font-size: clamp(14px, 2vw, 18px); color: var(--muted);
-    max-width: 560px; margin-bottom: 34px;
+    max-width: 560px;
   }
-  .btn {
-    display: inline-block; padding: 14px 32px;
-    border: 1px solid var(--accent); color: var(--accent);
-    text-decoration: none; letter-spacing: 3px; font-size: 13px;
-    border-radius: 40px; transition: all .3s;
-  }
-  .btn:hover { background: var(--accent); color: var(--bg); }
-  section { max-width: 900px; margin: 0 auto; padding: 80px 16px; }
+
+  section { max-width: 900px; margin: 0 auto; padding: 60px 16px; }
   .section-title {
     font-size: 12px; letter-spacing: 5px; color: var(--accent);
     margin-bottom: 10px; text-transform: uppercase;
@@ -78,6 +74,96 @@
     font-size: clamp(22px, 4vw, 34px); font-weight: 300;
     margin-bottom: 30px; letter-spacing: 2px;
   }
+
+  /* ЧАСЫ И КАЛЕНДАРЬ */
+  .clock-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  @media (max-width: 700px) {
+    .clock-wrap { grid-template-columns: 1fr; }
+  }
+  .clock-box, .cal-box {
+    padding: 28px 20px;
+    background: rgba(20, 20, 40, 0.55);
+    border: 1px solid rgba(120, 120, 200, 0.15);
+    border-radius: 18px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+  }
+  .clock-time {
+    font-size: clamp(42px, 12vw, 64px);
+    font-weight: 200;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-shadow: 0 0 30px rgba(100, 200, 255, 0.5);
+    font-variant-numeric: tabular-nums;
+  }
+  .clock-seconds {
+    font-size: 22px;
+    color: var(--muted);
+    margin-left: 4px;
+  }
+  .clock-date {
+    margin-top: 12px;
+    font-size: 15px;
+    color: var(--accent2);
+    letter-spacing: 2px;
+  }
+
+  /* Календарь */
+  .cal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .cal-title {
+    font-size: 16px;
+    color: var(--accent2);
+    letter-spacing: 1.5px;
+    text-transform: capitalize;
+  }
+  .cal-nav {
+    background: none;
+    border: 1px solid rgba(120,120,200,0.3);
+    color: var(--accent);
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .cal-nav:hover { background: rgba(100,200,255,0.1); }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    font-size: 13px;
+  }
+  .cal-grid .day-name {
+    color: var(--muted);
+    font-size: 11px;
+    padding: 6px 0;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+  .cal-grid .day {
+    padding: 7px 0;
+    text-align: center;
+    border-radius: 6px;
+    color: #c8c8e0;
+  }
+  .cal-grid .day.other { color: #3a3a5a; }
+  .cal-grid .day.today {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #0a0a14;
+    font-weight: 700;
+    box-shadow: 0 0 15px rgba(100,200,255,0.5);
+  }
+
+  /* Игры */
   .game-block {
     display: flex; flex-direction: column; align-items: center;
     gap: 12px; margin-bottom: 70px;
@@ -128,6 +214,7 @@
     cursor: pointer; margin-top: 4px;
   }
   .reset-btn:hover { border-color: var(--accent); color: var(--accent); }
+
   .contacts { text-align: center; padding-bottom: 60px; }
   .contacts .links {
     display: flex; gap: 14px; justify-content: center;
@@ -156,6 +243,7 @@
 <nav>
   <div class="logo">РОМАН</div>
   <ul>
+    <li><a href="#time">ВРЕМЯ</a></li>
     <li><a href="#games">ИГРЫ</a></li>
     <li><a href="#contact">СВЯЗЬ</a></li>
   </ul>
@@ -164,8 +252,28 @@
 <header class="hero">
   <h1>РОМАН ПОВАРОВ</h1>
   <p>Здесь всякая фигня — игры, эксперименты и всё, что мне интересно.</p>
-  <a href="#games" class="btn">ИГРАТЬ</a>
 </header>
+
+<section id="time">
+  <div class="section-title">Сейчас</div>
+  <h2>Время и дата</h2>
+  <div class="clock-wrap">
+    <div class="clock-box">
+      <div class="clock-time">
+        <span id="hh">00</span>:<span id="mm">00</span><span class="clock-seconds" id="ss">:00</span>
+      </div>
+      <div class="clock-date" id="full-date">—</div>
+    </div>
+    <div class="cal-box">
+      <div class="cal-header">
+        <button class="cal-nav" onclick="changeMonth(-1)">‹</button>
+        <div class="cal-title" id="cal-title">—</div>
+        <button class="cal-nav" onclick="changeMonth(1)">›</button>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
+  </div>
+</section>
 
 <section id="games">
   <div class="section-title">Играть</div>
@@ -221,6 +329,7 @@
 <footer>СДЕЛАНО С ИНТЕРЕСОМ · 2026</footer>
 
 <script>
+/* ===== ФОН ===== */
 const bg = document.getElementById('bg-canvas');
 const bgx = bg.getContext('2d');
 let W, H, particles = [];
@@ -262,6 +371,86 @@ function drawBG() {
 }
 drawBG();
 
+/* ===== ЧАСЫ ===== */
+const MONTHS = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+const DAYS = ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
+
+function pad(n){ return n < 10 ? '0' + n : '' + n; }
+
+function updateClock() {
+  const now = new Date();
+  document.getElementById('hh').textContent = pad(now.getHours());
+  document.getElementById('mm').textContent = pad(now.getMinutes());
+  document.getElementById('ss').textContent = ':' + pad(now.getSeconds());
+  document.getElementById('full-date').textContent =
+    DAYS[now.getDay()] + ', ' + now.getDate() + ' ' + MONTHS[now.getMonth()] + ' ' + now.getFullYear();
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+/* ===== КАЛЕНДАРЬ ===== */
+const MONTH_NAMES = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+const DAY_SHORT = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+let calYear, calMonth;
+const today = new Date();
+calYear = today.getFullYear();
+calMonth = today.getMonth();
+
+function changeMonth(delta) {
+  calMonth += delta;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  renderCalendar();
+}
+
+function renderCalendar() {
+  document.getElementById('cal-title').textContent = MONTH_NAMES[calMonth] + ' ' + calYear;
+  const grid = document.getElementById('cal-grid');
+  grid.innerHTML = '';
+
+  DAY_SHORT.forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'day-name';
+    el.textContent = d;
+    grid.appendChild(el);
+  });
+
+  const firstDay = new Date(calYear, calMonth, 1);
+  let startWeekday = firstDay.getDay() - 1;
+  if (startWeekday < 0) startWeekday = 6;
+
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const prevDays = new Date(calYear, calMonth, 0).getDate();
+
+  for (let i = startWeekday - 1; i >= 0; i--) {
+    const el = document.createElement('div');
+    el.className = 'day other';
+    el.textContent = prevDays - i;
+    grid.appendChild(el);
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const el = document.createElement('div');
+    el.className = 'day';
+    if (d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear()) {
+      el.classList.add('today');
+    }
+    el.textContent = d;
+    grid.appendChild(el);
+  }
+
+  const total = startWeekday + daysInMonth;
+  const remaining = (7 - (total % 7)) % 7;
+  for (let i = 1; i <= remaining; i++) {
+    const el = document.createElement('div');
+    el.className = 'day other';
+    el.textContent = i;
+    grid.appendChild(el);
+  }
+}
+renderCalendar();
+
+/* ===== ЗМЕЙКА ===== */
 (function () {
   const c = document.getElementById('snake-canvas');
   const x = c.getContext('2d');
@@ -340,6 +529,7 @@ drawBG();
   reset();
 })();
 
+/* ===== ОТРАЖЕНИЕ ===== */
 (function () {
   const CELL = 18, COLS = 20, ROWS = 20;
   const c = document.getElementById('refl-canvas');
@@ -466,6 +656,7 @@ drawBG();
   reset();
 })();
 
+/* ===== ЩИТ ===== */
 (function () {
   const c = document.getElementById('shield-canvas');
   const x = c.getContext('2d');
@@ -592,7 +783,8 @@ drawBG();
   reset();
 })();
 
-document.querySelectorAll('nav a[href^="#"], .btn').forEach(a => {
+/* ===== ПЛАВНЫЙ СКРОЛЛ ===== */
+document.querySelectorAll('nav a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const id = a.getAttribute('href');
     if (id && id.startsWith('#')) {
