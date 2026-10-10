@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Моё пространство</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a14;
+    --bg2: #12122a;
+    --accent: #6cf;
+    --accent2: #b8a4ff;
+    --text: #eaeaea;
+    --muted: #7a7a9a;
+  }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ---- Анимированный фон ---- */
+  #bg-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+    background: radial-gradient(circle at 30% 20%, #1a1030 0%, #0a0a14 60%);
+  }
+
+  /* ---- Навигация ---- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 18px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(12px);
+    background: rgba(10, 10, 20, 0.6);
+    border-bottom: 1px solid rgba(120, 120, 200, 0.1);
+    z-index: 100;
+  }
+  .logo {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  nav ul { display: flex; gap: 32px; list-style: none; }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    transition: color .2s;
+  }
+  nav a:hover { color: var(--accent); }
+
+  /* ---- Hero ---- */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+  }
+  .hero h1 {
+    font-size: clamp(38px, 7vw, 84px);
+    font-weight: 300;
+    letter-spacing: 6px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #fff, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeUp 1.2s ease both;
+  }
+  .hero p {
+    font-size: clamp(15px, 2vw, 19px);
+    color: var(--muted);
+    max-width: 560px;
+    margin-bottom: 40px;
+    animation: fadeUp 1.2s ease .2s both;
+  }
+  .btn {
+    display: inline-block;
+    padding: 14px 34px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 3px;
+    font-size: 13px;
+    border-radius: 40px;
+    transition: all .3s;
+    animation: fadeUp 1.2s ease .4s both;
+  }
+  .btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+    box-shadow: 0 0 30px rgba(100, 200, 255, 0.5);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---- Секции ---- */
+  section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 100px 30px;
+  }
+  .section-title {
+    font-size: 13px;
+    letter-spacing: 6px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .section-title::before {
+    content: '// ';
+    color: var(--muted);
+  }
+  h2 {
+    font-size: clamp(26px, 4vw, 40px);
+    font-weight: 300;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+  }
+
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+  }
+  .about-text p { color: #b8b8d0; margin-bottom: 18px; }
+  .about-card {
+    padding: 30px;
+    background: linear-gradient(160deg, rgba(100,200,255,0.08), rgba(184,164,255,0.05));
+    border: 1px solid rgba(120, 120, 200, 0.15);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+  }
+  .about-card .item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(120,120,200,0.1);
+    font-size: 14px;
+  }
+  .about-card .item:last-child { border-bottom: none; }
+  .about-card .item span:first-child { color: var(--muted); }
+  .about-card .item span:last-child { color: var(--accent2); }
+
+  /* ---- Проекты ---- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+  .card {
+    padding: 28px;
+    background: rgba(20, 20, 40, 0.6);
+    border: 1px solid rgba(120, 120, 200, 0.12);
+    border-radius: 16px;
+    transition: all .35s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    transition: left .6s;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(100, 200, 255, 0.4);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  }
+  .card:hover::before { left: 100%; }
+  .card .num {
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  .card h3 { font-weight: 500; font-size: 19px; margin-bottom: 10px; }
+  .card p { color: var(--muted); font-size: 14px; }
+
+  /* ---- Контакты ---- */
+  .contacts {
+    text-align: center;
+    padding-bottom: 80px;
+  }
+  .contacts .links {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+  .contacts .links a {
+    color: var(--text);
+    text-decoration: none;
+    padding: 12px 26px;
+    border: 1px solid rgba(120,120,200,0.3);
+    border-radius: 30px;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    transition: all .3s;
+  }
+  .contacts .links a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 20px rgba(100,200,255,0.3);
+  }
+
+  footer {
+    text-align: center;
+    padding: 30px;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 2px;
+    border-top: 1px solid rgba(120,120,200,0.1);
+  }
+
+  @media (max-width: 700px) {
+    nav { padding: 14px 20px; }
+    nav ul { gap: 16px; }
+    nav a { font-size: 12px; letter-spacing: 1px; }
+    .about { grid-template-columns: 1fr; }
+    section { padding: 70px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<nav>
+  <div class="logo">МОЁ</div>
+  <ul>
+    <li><a href="#about">ОБО МНЕ</a></li>
+    <li><a href="#work">ПРОЕКТЫ</a></li>
+    <li><a href="#contact">СВЯЗЬ</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <h1>ПРИВЕТ, МИР</h1>
+  <p>Я создаю вещи, которых раньше не было. Немного кода, немного идей — и рождается что-то новое.</p>
+  <a href="#about" class="btn">УЗНАТЬ БОЛЬШЕ</a>
+</header>
+
+<section id="about">
+  <div class="section-title">Обо мне</div>
+  <h2>Простой человек, сложные проекты</h2>
+  <div class="about">
+    <div class="about-text">
+      <p>Мне нравится придумывать игры, писать код и видеть, как идея превращается в то, во что можно поиграть.</p>
+      <p>Здесь я собираю свои эксперименты — от маленьких игр до утилит, которые делают жизнь чуть проще.</p>
+      <p>Если что-то из этого тебе откликнется — напиши, буду рад.</p>
+    </div>
+    <div class="about-card">
+      <div class="item"><span>Локация</span><span>Планета Земля</span></div>
+      <div class="item"><span>Дело</span><span>Код и игры</span></div>
+      <div class="item"><span>Стек</span><span>JS · HTML · CSS</span></div>
+      <div class="item"><span>Статус</span><span>Открыт к идеям</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-title">Проекты</div>
+  <h2>Что я уже сделал</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="num">01</div>
+      <h3>Отражение</h3>
+      <p>Игра, где ты управляешь одним шаром, а второй повторяет движения зеркально. Мозг кипит.</p>
+    </div>
+    <div class="card">
+      <div class="num">02</div>
+      <h3>Щит</h3>
+      <p>Круговой реактор, вращающийся щит, бесконечные враги. Управление одной мышкой.</p>
+    </div>
+    <div class="card">
+      <div class="num">03</div>
+      <h3>Змейка</h3>
+      <p>Классика в новой анимации. Рост, ускорение и вечный вопрос — куда повернуть.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contacts">
+  <div class="section-title">Связь</div>
+  <h2>Дай знать, что думаешь</h2>
+  <div class="links">
+    <a href="#">EMAIL</a>
+    <a href="#">TELEGRAM</a>
+    <a href="#">GITHUB</a>
+  </div>
+</section>
+
+<footer>СДЕЛАНО С ИНТЕРЕСОМ · 2026</footer>
+
+<script>
+// ---- Анимированные частицы на фоне ----
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+for (let i = 0; i < 70; i++) {
+  particles.push({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    vx: (Math.random() - 0.5) * 0.3,
+    vy: (Math.random() - 0.5) * 0.3,
+    r: Math.random() * 1.6 + 0.4
+  });
+}
+
+function drawBG() {
+  ctx.clearRect(0, 0, W, H);
+
+  for (let i = 0; i < particles.length; i++) {
+    const p = particles[i];
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0 || p.x > W) p.vx *= -1;
+    if (p.y < 0 || p.y > H) p.vy *= -1;
+
+    ctx.fillStyle = 'rgba(150, 190, 255, 0.5)';
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+
+    for (let j = i + 1; j < particles.length; j++) {
+      const q = particles[j];
+      const dx = p.x - q.x, dy = p.y - q.y;
+      const d = Math.hypot(dx, dy);
+      if (d < 140) {
+        ctx.strokeStyle = 'rgba(120, 170, 255, ' + ((1 - d / 140) * 0.15) + ')';
+        ctx.lineWidth = 0.6;
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(q.x, q.y);
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawBG);
+}
+drawBG();
+
+// ---- Плавный скролл по ссылкам ----
+document.querySelectorAll('nav a[href^="#"], .btn').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    const id = a.getAttribute('href');
+    if (id.startsWith('#')) {
+      e.preventDefault();
+      const el = document.querySelector(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+
+// ---- Появление секций при скролле ----
+const io = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('section').forEach(function(s) {
+  s.style.opacity = '0';
+  s.style.transform = 'translateY(40px)';
+  s.style.transition = 'all 0.9s ease';
+  io.observe(s);
+});
+</script>
+
+</body>
+</html>
