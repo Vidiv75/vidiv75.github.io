@@ -46,8 +46,6 @@
     font-size: 12px; letter-spacing: 1px; transition: color .2s;
   }
   nav a:hover { color: var(--accent); }
-
-  /* HERO */
   .hero {
     min-height: 60vh;
     display: flex; flex-direction: column;
@@ -64,7 +62,6 @@
     font-size: clamp(14px, 2vw, 18px); color: var(--muted);
     max-width: 560px;
   }
-
   section { max-width: 900px; margin: 0 auto; padding: 60px 16px; }
   .section-title {
     font-size: 12px; letter-spacing: 5px; color: var(--accent);
@@ -74,17 +71,13 @@
     font-size: clamp(22px, 4vw, 34px); font-weight: 300;
     margin-bottom: 30px; letter-spacing: 2px;
   }
-
-  /* ЧАСЫ И КАЛЕНДАРЬ */
   .clock-wrap {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     align-items: start;
   }
-  @media (max-width: 700px) {
-    .clock-wrap { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 700px) { .clock-wrap { grid-template-columns: 1fr; } }
   .clock-box, .cal-box {
     padding: 28px 20px;
     background: rgba(20, 20, 40, 0.55);
@@ -95,75 +88,88 @@
   }
   .clock-time {
     font-size: clamp(42px, 12vw, 64px);
-    font-weight: 200;
-    letter-spacing: 3px;
+    font-weight: 200; letter-spacing: 3px;
     color: var(--accent);
     text-shadow: 0 0 30px rgba(100, 200, 255, 0.5);
     font-variant-numeric: tabular-nums;
   }
-  .clock-seconds {
-    font-size: 22px;
-    color: var(--muted);
-    margin-left: 4px;
-  }
+  .clock-seconds { font-size: 22px; color: var(--muted); margin-left: 4px; }
   .clock-date {
-    margin-top: 12px;
-    font-size: 15px;
-    color: var(--accent2);
-    letter-spacing: 2px;
+    margin-top: 12px; font-size: 15px;
+    color: var(--accent2); letter-spacing: 2px;
   }
-
-  /* Календарь */
   .cal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 16px;
   }
   .cal-title {
-    font-size: 16px;
-    color: var(--accent2);
-    letter-spacing: 1.5px;
-    text-transform: capitalize;
+    font-size: 16px; color: var(--accent2);
+    letter-spacing: 1.5px; text-transform: capitalize;
   }
   .cal-nav {
-    background: none;
-    border: 1px solid rgba(120,120,200,0.3);
-    color: var(--accent);
-    width: 32px; height: 32px;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
+    background: none; border: 1px solid rgba(120,120,200,0.3);
+    color: var(--accent); width: 32px; height: 32px;
+    border-radius: 8px; font-size: 16px; cursor: pointer;
   }
   .cal-nav:hover { background: rgba(100,200,255,0.1); }
   .cal-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 3px;
-    font-size: 13px;
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    gap: 3px; font-size: 13px;
   }
   .cal-grid .day-name {
-    color: var(--muted);
-    font-size: 11px;
-    padding: 6px 0;
-    text-align: center;
-    letter-spacing: 1px;
+    color: var(--muted); font-size: 11px;
+    padding: 6px 0; text-align: center; letter-spacing: 1px;
   }
   .cal-grid .day {
-    padding: 7px 0;
-    text-align: center;
-    border-radius: 6px;
-    color: #c8c8e0;
+    padding: 7px 0; text-align: center;
+    border-radius: 6px; color: #c8c8e0;
   }
   .cal-grid .day.other { color: #3a3a5a; }
   .cal-grid .day.today {
     background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: #0a0a14;
-    font-weight: 700;
+    color: #0a0a14; font-weight: 700;
     box-shadow: 0 0 15px rgba(100,200,255,0.5);
   }
-
-  /* Игры */
+  .rates-wrap {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 20px; margin-top: 20px;
+  }
+  @media (max-width: 700px) { .rates-wrap { grid-template-columns: 1fr; } }
+  .rate-card {
+    padding: 24px;
+    background: rgba(20, 20, 40, 0.55);
+    border: 1px solid rgba(120, 120, 200, 0.15);
+    border-radius: 18px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+  }
+  .rate-flag { font-size: 32px; margin-bottom: 6px; }
+  .rate-name {
+    font-size: 13px; color: var(--muted);
+    letter-spacing: 3px; margin-bottom: 10px;
+  }
+  .rate-value {
+    font-size: 34px; font-weight: 300;
+    color: var(--accent); letter-spacing: 2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .rate-value .ruble {
+    font-size: 18px; color: var(--accent2);
+    margin-left: 4px;
+  }
+  .rates-footer {
+    text-align: center; margin-top: 20px;
+    font-size: 12px; color: var(--muted);
+    letter-spacing: 1px;
+  }
+  .rates-footer button {
+    margin-top: 12px; padding: 10px 26px;
+    background: none; border: 1px solid var(--accent);
+    color: var(--accent); border-radius: 30px;
+    font-size: 12px; letter-spacing: 2px;
+    cursor: pointer; transition: all .2s;
+  }
+  .rates-footer button:hover { background: var(--accent); color: var(--bg); }
   .game-block {
     display: flex; flex-direction: column; align-items: center;
     gap: 12px; margin-bottom: 70px;
@@ -173,8 +179,8 @@
     border-radius: 18px;
   }
   .game-block h3 {
-    font-weight: 300; font-size: 22px; letter-spacing: 3px;
-    color: var(--accent2);
+    font-weight: 300; font-size: 22px;
+    letter-spacing: 3px; color: var(--accent2);
   }
   .game-score { font-size: 14px; color: var(--accent); letter-spacing: 2px; }
   .game-score b { color: #fff; font-weight: 600; }
@@ -214,7 +220,6 @@
     cursor: pointer; margin-top: 4px;
   }
   .reset-btn:hover { border-color: var(--accent); color: var(--accent); }
-
   .contacts { text-align: center; padding-bottom: 60px; }
   .contacts .links {
     display: flex; gap: 14px; justify-content: center;
@@ -244,6 +249,7 @@
   <div class="logo">РОМАН</div>
   <ul>
     <li><a href="#time">ВРЕМЯ</a></li>
+    <li><a href="#rates">КУРС</a></li>
     <li><a href="#games">ИГРЫ</a></li>
     <li><a href="#contact">СВЯЗЬ</a></li>
   </ul>
@@ -272,6 +278,28 @@
       </div>
       <div class="cal-grid" id="cal-grid"></div>
     </div>
+  </div>
+</section>
+
+<section id="rates">
+  <div class="section-title">Финансы</div>
+  <h2>Курс валют к гривне</h2>
+  <div class="rates-wrap">
+    <div class="rate-card">
+      <div class="rate-flag">🇺🇸</div>
+      <div class="rate-name">ДОЛЛАР</div>
+      <div class="rate-value" id="usd-rate">—<span class="ruble">₴</span></div>
+    </div>
+    <div class="rate-card">
+      <div class="rate-flag">🇪🇺</div>
+      <div class="rate-name">ЕВРО</div>
+      <div class="rate-value" id="eur-rate">—<span class="ruble">₴</span></div>
+    </div>
+  </div>
+  <div class="rates-footer">
+    Обновлено: <span id="rates-updated">—</span>
+    <br>
+    <button id="rates-refresh">ОБНОВИТЬ</button>
   </div>
 </section>
 
@@ -374,9 +402,7 @@ drawBG();
 /* ===== ЧАСЫ ===== */
 const MONTHS = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
 const DAYS = ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
-
 function pad(n){ return n < 10 ? '0' + n : '' + n; }
-
 function updateClock() {
   const now = new Date();
   document.getElementById('hh').textContent = pad(now.getHours());
@@ -395,40 +421,33 @@ let calYear, calMonth;
 const today = new Date();
 calYear = today.getFullYear();
 calMonth = today.getMonth();
-
 function changeMonth(delta) {
   calMonth += delta;
   if (calMonth > 11) { calMonth = 0; calYear++; }
   if (calMonth < 0) { calMonth = 11; calYear--; }
   renderCalendar();
 }
-
 function renderCalendar() {
   document.getElementById('cal-title').textContent = MONTH_NAMES[calMonth] + ' ' + calYear;
   const grid = document.getElementById('cal-grid');
   grid.innerHTML = '';
-
   DAY_SHORT.forEach(d => {
     const el = document.createElement('div');
     el.className = 'day-name';
     el.textContent = d;
     grid.appendChild(el);
   });
-
   const firstDay = new Date(calYear, calMonth, 1);
   let startWeekday = firstDay.getDay() - 1;
   if (startWeekday < 0) startWeekday = 6;
-
   const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
   const prevDays = new Date(calYear, calMonth, 0).getDate();
-
   for (let i = startWeekday - 1; i >= 0; i--) {
     const el = document.createElement('div');
     el.className = 'day other';
     el.textContent = prevDays - i;
     grid.appendChild(el);
   }
-
   for (let d = 1; d <= daysInMonth; d++) {
     const el = document.createElement('div');
     el.className = 'day';
@@ -438,7 +457,6 @@ function renderCalendar() {
     el.textContent = d;
     grid.appendChild(el);
   }
-
   const total = startWeekday + daysInMonth;
   const remaining = (7 - (total % 7)) % 7;
   for (let i = 1; i <= remaining; i++) {
@@ -449,6 +467,48 @@ function renderCalendar() {
   }
 }
 renderCalendar();
+
+/* ===== КУРС ВАЛЮТ К ГРИВНЕ ===== */
+function formatRate(value) {
+  return value.toFixed(2).replace('.', ',');
+}
+function formatTime(date) {
+  return pad(date.getHours()) + ':' + pad(date.getMinutes()) + ':' + pad(date.getSeconds());
+}
+async function loadRates() {
+  const usdEl = document.getElementById('usd-rate');
+  const eurEl = document.getElementById('eur-rate');
+  const updEl = document.getElementById('rates-updated');
+
+  usdEl.innerHTML = '...<span class="ruble">₴</span>';
+  eurEl.innerHTML = '...<span class="ruble">₴</span>';
+  updEl.textContent = 'загрузка...';
+
+  try {
+    const res = await fetch('https://open.er-api.com/v6/latest/USD');
+    const data = await res.json();
+
+    if (data && data.rates && data.rates.UAH) {
+      const usdToUah = data.rates.UAH;
+      const eurToUsd = data.rates.EUR || 1;
+      const eurToUah = usdToUah / eurToUsd;
+
+      usdEl.innerHTML = formatRate(usdToUah) + '<span class="ruble">₴</span>';
+      eurEl.innerHTML = formatRate(eurToUah) + '<span class="ruble">₴</span>';
+
+      const d = new Date(data.time_last_update_unix * 1000);
+      updEl.textContent = formatTime(d);
+    } else {
+      throw new Error('Нет данных');
+    }
+  } catch (e) {
+    usdEl.innerHTML = '—<span class="ruble">₴</span>';
+    eurEl.innerHTML = '—<span class="ruble">₴</span>';
+    updEl.textContent = 'ошибка загрузки';
+  }
+}
+document.getElementById('rates-refresh').addEventListener('click', loadRates);
+loadRates();
 
 /* ===== ЗМЕЙКА ===== */
 (function () {
