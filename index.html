@@ -40,7 +40,7 @@
     background: linear-gradient(90deg, var(--accent), var(--accent2));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   }
-  nav ul { display: flex; gap: 8px; list-style: none; }
+  nav ul { display: flex; gap: 8px; list-style: none; flex-wrap: wrap; }
   nav a {
     color: var(--muted); text-decoration: none;
     font-size: 9px; letter-spacing: 0.5px; transition: color .2s;
@@ -332,6 +332,72 @@
   }
   .movie-desc { font-size: 13px; color: #b8b8d0; line-height: 1.5; }
 
+  .news-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 10px;
+  }
+  .news-item {
+    display: block;
+    padding: 18px 20px;
+    background: rgba(20, 20, 40, 0.55);
+    border: 1px solid rgba(120, 120, 200, 0.15);
+    border-radius: 14px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all .25s;
+  }
+  .news-item:hover {
+    border-color: rgba(100, 200, 255, 0.5);
+    transform: translateX(6px);
+    background: rgba(30, 30, 55, 0.75);
+  }
+  .news-date {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+  .news-title {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+  .news-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .news-loading {
+    text-align: center;
+    padding: 30px;
+    color: var(--muted);
+    letter-spacing: 2px;
+  }
+  .news-error {
+    text-align: center;
+    padding: 30px;
+    color: #ff7a9c;
+  }
+  .news-footer {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .news-footer button {
+    padding: 10px 26px;
+    background: none;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 30px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .news-footer button:hover { background: var(--accent); color: var(--bg); }
+
   .game-block {
     display: flex; flex-direction: column; align-items: center;
     gap: 12px; margin-bottom: 70px;
@@ -382,19 +448,6 @@
     cursor: pointer; margin-top: 4px;
   }
   .reset-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .contacts { text-align: center; padding-bottom: 60px; }
-  .contacts .links {
-    display: flex; gap: 14px; justify-content: center;
-    flex-wrap: wrap; margin-top: 24px;
-  }
-  .contacts .links a {
-    color: var(--text); text-decoration: none;
-    padding: 11px 22px;
-    border: 1px solid rgba(120,120,200,0.3);
-    border-radius: 30px; font-size: 12px;
-    letter-spacing: 1.5px; transition: all .3s;
-  }
-  .contacts .links a:hover { border-color: var(--accent); color: var(--accent); }
   footer {
     text-align: center; padding: 26px;
     color: var(--muted); font-size: 11px;
@@ -415,6 +468,7 @@
     <li><a href="#weather">ПОГОДА</a></li>
     <li><a href="#calc">КАЛЬК</a></li>
     <li><a href="#movies">КИНО</a></li>
+    <li><a href="#news">НОВОСТИ</a></li>
     <li><a href="#games">ИГРЫ</a></li>
   </ul>
 </nav>
@@ -525,6 +579,17 @@
   <div class="section-title">Кино</div>
   <h2>Фильмы, которые стоит посмотреть</h2>
   <div class="movies-grid" id="movies-grid"></div>
+</section>
+
+<section id="news">
+  <div class="section-title">Лента</div>
+  <h2>Последние новости</h2>
+  <div class="news-list" id="news-list">
+    <div class="news-loading">Загружаем новости...</div>
+  </div>
+  <div class="news-footer">
+    <button id="news-refresh">ОБНОВИТЬ</button>
+  </div>
 </section>
 
 <section id="games">
@@ -911,6 +976,62 @@ const MOVIES = [
     grid.appendChild(card);
   });
 })();
+
+/* ===== НОВОСТИ ===== */
+const NEWS_FEED = 'https://lenta.ru/rss/news';
+const MAX_NEWS = 8;
+
+function timeAgo(dateStr) {
+  const d = new Date(dateStr);
+  const now = new Date();
+  const diff = Math.floor((now - d) / 1000 / 60);
+  if (diff < 1) return 'только что';
+  if (diff < 60) return diff + ' мин назад';
+  const hours = Math.floor(diff / 60);
+  if (hours < 24) return hours + ' ч назад';
+  const days = Math.floor(hours / 24);
+  return days + ' дн назад';
+}
+
+async function loadNews() {
+  const list = document.getElementById('news-list');
+  if (!list) return;
+  list.innerHTML = '<div class="news-loading">Загружаем новости...</div>';
+
+  try {
+    const url = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(NEWS_FEED);
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (!data || !data.items || !data.items.length) {
+      throw new Error('Пустая лента');
+    }
+
+    list.innerHTML = '';
+    data.items.slice(0, MAX_NEWS).forEach(item => {
+      const a = document.createElement('a');
+      a.className = 'news-item';
+      a.href = item.link;
+      a.target = '_blank';
+      a.rel = 'noopener';
+
+      let desc = item.description || '';
+      desc = desc.replace(/<[^>]*>/g, '').slice(0, 160);
+      if (desc.length === 160) desc += '...';
+
+      a.innerHTML =
+        '<div class="news-date">' + timeAgo(item.pubDate) + '</div>' +
+        '<div class="news-title">' + item.title + '</div>' +
+        '<div class="news-desc">' + desc + '</div>';
+
+      list.appendChild(a);
+    });
+  } catch (e) {
+    list.innerHTML = '<div class="news-error">Не удалось загрузить новости. Нажмите «Обновить».</div>';
+  }
+}
+document.getElementById('news-refresh')?.addEventListener('click', loadNews);
+loadNews();
 
 /* ===== ЗМЕЙКА ===== */
 (function () {
