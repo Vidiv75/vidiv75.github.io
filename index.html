@@ -40,10 +40,10 @@
     background: linear-gradient(90deg, var(--accent), var(--accent2));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   }
-  nav ul { display: flex; gap: 10px; list-style: none; }
+  nav ul { display: flex; gap: 8px; list-style: none; }
   nav a {
     color: var(--muted); text-decoration: none;
-    font-size: 10px; letter-spacing: 0.5px; transition: color .2s;
+    font-size: 9px; letter-spacing: 0.5px; transition: color .2s;
   }
   nav a:hover { color: var(--accent); }
   .hero {
@@ -217,7 +217,6 @@
   }
   .weather-footer button:hover { background: var(--accent); color: var(--bg); }
 
-  /* КАЛЬКУЛЯТОР */
   .calc-wrap {
     max-width: 340px;
     margin: 0 auto;
@@ -299,6 +298,39 @@
     grid-column: span 2;
   }
   .calc-btn.equals:hover { filter: brightness(1.15); }
+
+  .movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .movie-card {
+    padding: 22px;
+    background: rgba(20, 20, 40, 0.55);
+    border: 1px solid rgba(120, 120, 200, 0.15);
+    border-radius: 18px;
+    backdrop-filter: blur(10px);
+    transition: all .3s;
+  }
+  .movie-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(100, 200, 255, 0.4);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+  }
+  .movie-emoji { font-size: 44px; line-height: 1; margin-bottom: 12px; }
+  .movie-title {
+    font-size: 18px; font-weight: 500;
+    color: var(--text); letter-spacing: 1px; margin-bottom: 4px;
+  }
+  .movie-meta {
+    font-size: 12px; color: var(--muted);
+    letter-spacing: 2px; margin-bottom: 10px;
+  }
+  .movie-rating {
+    color: #ffd166; font-size: 14px;
+    letter-spacing: 2px; margin-bottom: 10px;
+  }
+  .movie-desc { font-size: 13px; color: #b8b8d0; line-height: 1.5; }
 
   .game-block {
     display: flex; flex-direction: column; align-items: center;
@@ -382,6 +414,7 @@
     <li><a href="#rates">КУРС</a></li>
     <li><a href="#weather">ПОГОДА</a></li>
     <li><a href="#calc">КАЛЬК</a></li>
+    <li><a href="#movies">КИНО</a></li>
     <li><a href="#games">ИГРЫ</a></li>
   </ul>
 </nav>
@@ -469,27 +502,29 @@
       <button class="calc-btn clear" data-action="back">⌫</button>
       <button class="calc-btn op" data-action="percent">%</button>
       <button class="calc-btn op" data-op="/">÷</button>
-
       <button class="calc-btn" data-num="7">7</button>
       <button class="calc-btn" data-num="8">8</button>
       <button class="calc-btn" data-num="9">9</button>
       <button class="calc-btn op" data-op="*">×</button>
-
       <button class="calc-btn" data-num="4">4</button>
       <button class="calc-btn" data-num="5">5</button>
       <button class="calc-btn" data-num="6">6</button>
       <button class="calc-btn op" data-op="-">−</button>
-
       <button class="calc-btn" data-num="1">1</button>
       <button class="calc-btn" data-num="2">2</button>
       <button class="calc-btn" data-num="3">3</button>
       <button class="calc-btn op" data-op="+">+</button>
-
       <button class="calc-btn" data-num="0">0</button>
       <button class="calc-btn" data-action="dot">,</button>
       <button class="calc-btn equals" data-action="equals">=</button>
     </div>
   </div>
+</section>
+
+<section id="movies">
+  <div class="section-title">Кино</div>
+  <h2>Фильмы, которые стоит посмотреть</h2>
+  <div class="movies-grid" id="movies-grid"></div>
 </section>
 
 <section id="games">
@@ -648,9 +683,7 @@ function renderCalendar() {
 renderCalendar();
 
 /* ===== КУРС ВАЛЮТ ===== */
-function formatRate(value) {
-  return value.toFixed(2).replace('.', ',');
-}
+function formatRate(value) { return value.toFixed(2).replace('.', ','); }
 function formatTime(date) {
   return pad(date.getHours()) + ':' + pad(date.getMinutes()) + ':' + pad(date.getSeconds());
 }
@@ -756,30 +789,18 @@ loadWeather();
       historyEl.textContent = '';
     }
   }
-
   function inputDigit(d) {
-    if (waitingForOperand) {
-      current = d;
-      waitingForOperand = false;
-    } else {
-      current = current === '0' ? d : current + d;
-    }
+    if (waitingForOperand) { current = d; waitingForOperand = false; }
+    else { current = current === '0' ? d : current + d; }
     updateDisplay();
   }
-
   function inputDot() {
-    if (waitingForOperand) {
-      current = '0.';
-      waitingForOperand = false;
-    } else if (!current.includes('.')) {
-      current += '.';
-    }
+    if (waitingForOperand) { current = '0.'; waitingForOperand = false; }
+    else if (!current.includes('.')) { current += '.'; }
     updateDisplay();
   }
-
   function calc(a, op, b) {
-    const x = parseFloat(a);
-    const y = parseFloat(b);
+    const x = parseFloat(a); const y = parseFloat(b);
     switch (op) {
       case '+': return x + y;
       case '-': return x - y;
@@ -788,30 +809,26 @@ loadWeather();
       default: return y;
     }
   }
-
   function formatResult(n) {
     if (!isFinite(n)) return 'Ошибка';
     let s = Math.round(n * 1e10) / 1e10;
     if (Math.abs(s) > 1e15) return s.toExponential(6);
     return s.toString();
   }
-
   document.querySelectorAll('.calc-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       e.preventDefault();
       const num = btn.dataset.num;
       const op = btn.dataset.op;
       const action = btn.dataset.action;
-
       if (num !== undefined) {
-        if (current === 'Ошибка') { current = '0'; }
+        if (current === 'Ошибка') current = '0';
         inputDigit(num);
       } else if (op !== undefined) {
         if (current === 'Ошибка') return;
         const inputValue = parseFloat(current);
-        if (previous === null) {
-          previous = inputValue;
-        } else if (operator) {
+        if (previous === null) { previous = inputValue; }
+        else if (operator) {
           const result = calc(previous, operator, inputValue);
           previous = result;
           current = formatResult(result);
@@ -823,8 +840,7 @@ loadWeather();
         if (operator && previous !== null) {
           const result = calc(previous, operator, parseFloat(current));
           current = formatResult(result);
-          previous = null;
-          operator = null;
+          previous = null; operator = null;
           waitingForOperand = true;
           resultEl.textContent = current.replace('.', ',');
           historyEl.textContent = '';
@@ -843,13 +859,11 @@ loadWeather();
         current = formatResult(parseFloat(current) / 100);
         updateDisplay();
       } else if (action === 'dot') {
-        if (current === 'Ошибка') { current = '0'; }
+        if (current === 'Ошибка') current = '0';
         inputDot();
       }
     });
   });
-
-  // Поддержка клавиатуры
   document.addEventListener('keydown', e => {
     const k = e.key;
     if (/^[0-9]$/.test(k)) {
@@ -868,8 +882,34 @@ loadWeather();
       document.querySelector('.calc-btn[data-action="dot"]')?.click();
     }
   });
-
   updateDisplay();
+})();
+
+/* ===== ФИЛЬМЫ ===== */
+const MOVIES = [
+  { emoji: '🚀', title: 'Интерстеллар', year: 2014, genre: 'Фантастика', rating: 5, desc: 'Путешествие сквозь чёрную дыру ради спасения человечества.' },
+  { emoji: '🦁', title: 'Король Лев', year: 1994, genre: 'Мультфильм', rating: 5, desc: 'Классика Disney о взрослении маленького львёнка Симбы.' },
+  { emoji: '🕶️', title: 'Матрица', year: 1999, genre: 'Фантастика', rating: 5, desc: 'Нео узнаёт, что мир — иллюзия, и становится Избранным.' },
+  { emoji: '💍', title: 'Властелин колец', year: 2001, genre: 'Фэнтези', rating: 5, desc: 'Хоббит Фродо должен уничтожить Кольцо Всевластья.' },
+  { emoji: '🤖', title: 'Терминатор 2', year: 1991, genre: 'Боевик', rating: 5, desc: 'Робот из будущего защищает мальчика от другого робота.' },
+  { emoji: '🌊', title: 'Титаник', year: 1997, genre: 'Драма', rating: 4, desc: 'История любви на борту легендарного лайнера.' }
+];
+(function renderMovies() {
+  const grid = document.getElementById('movies-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  MOVIES.forEach(m => {
+    const stars = '★'.repeat(m.rating) + '☆'.repeat(5 - m.rating);
+    const card = document.createElement('div');
+    card.className = 'movie-card';
+    card.innerHTML =
+      '<div class="movie-emoji">' + m.emoji + '</div>' +
+      '<div class="movie-title">' + m.title + '</div>' +
+      '<div class="movie-meta">' + m.year + ' · ' + m.genre + '</div>' +
+      '<div class="movie-rating">' + stars + '</div>' +
+      '<div class="movie-desc">' + m.desc + '</div>';
+    grid.appendChild(card);
+  });
 })();
 
 /* ===== ЗМЕЙКА ===== */
@@ -973,9 +1013,8 @@ loadWeather();
     for (let i = 0; i < 200; i++) {
       const o = { x: randInt(2, COLS - 4), y: randInt(2, ROWS - 4) };
       const m = mirror(o.x, o.y);
-      const tooClose =
-        Math.abs(o.x - p1.x) + Math.abs(o.y - p1.y) < 4 ||
-        Math.abs(m.x - p1.x) + Math.abs(m.y - p1.y) < 4;
+      const tooClose = Math.abs(o.x - p1.x) + Math.abs(o.y - p1.y) < 4 ||
+                       Math.abs(m.x - p1.x) + Math.abs(m.y - p1.y) < 4;
       if (!tooClose) { orb = o; return; }
     }
     orb = { x: 8, y: 8 };
